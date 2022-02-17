@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.run.dao.CheckGroupDao">
+    <resultMap id="baseResultMap" type="com.run.domain.CheckGroup">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="helpCode" property="helpCode"/>
+        <result column="sex" property="sex"/>
+        <result column="remark" property="remark"/>
+        <result column="attention" property="attention"/>
+    </resultMap>
+    <resultMap id="findByIdResultMap" type="com.run.domain.CheckGroup" extends="baseResultMap">
+        <collection property="checkItems"
+                    javaType="ArrayList"
+                    ofType="com.run.domain.CheckItem"
+                    column="id"
+                    select="com.run.dao.CheckItemDao.findCheckItemById"></collection>
+    </resultMap>
+    <!-- 向检查组中添加数据 -->
+    <insert id="add" parameterType="com.run.domain.CheckGroup">
+        <!--获取到添加语句产生的ID-->
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT  LAST_INSERT_ID()
+        </selectKey>
+        insert into t_checkgroup(code,name,helpCode,sex ,remark ,attention)
+        values (#{code},#{name},#{helpCode},#{sex},#{remark},#{attention})
+    </insert>
+
+    <insert id="setCheckGroupAndCheckItem" parameterType="hashmap">
+        insert into t_checkgroup_checkitem(checkgroup_id,checkitem_id)
+        values
+        (#{checkGroupId},#{checkItemIds})
+    </insert>
+    <select id="selectByCondition" resultType="com.run.domain.CheckGroup" parameterType="string">
+        select * from t_checkgroup
+        <if test="value!=null and value.length>0">
+            where code like concat('%', #{value} ,'%') or name like concat('%', #{value} ,'%') or helpCode like concat('%', #{value} ,'%')
+        </if>
+    </select>
+    <select id="findById" resultType="com.run.domain.CheckGroup" parameterType="int">
+        select * from t_checkGroup where  id = #{id}
+    </select>
+    <!--根据id查询数据 -->
+    <select id="findGroupItAndItemId" parameterType="int" resultType="int">
+        select checkitem_id from t_checkgroup_checkitem where checkgroup_id =#{id}
+    </select>
+
+    <!--    将修改的数据传入检查组-->
+    <update id="edit" parameterType="com.run.domain.CheckGroup">
+        update t_checkgroup
+        <set>
+            <if test="code!=null">
+                code=#{code},
+            </if>
+            <if test="name!=null">
+                name=#{name},
+            </if>
+            <if test="helpCode!=null">
+                helpCode=#{helpCode},
+            </if>
+            <if test="sex!=null">
+                sex=#{sex},
+            </if>
+            <if test="remark!=null">
+                remark=#{remark},
+            </if>
+            <if test="attention!=null">
+                attention=#{attention}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <!--删除表中原有数据 -->
+    <delete id="deleteGroupId" parameterType="int">
+        delete from t_checkgroup_checkitem where checkgroup_id=#{id}
+    </delete>
+    <insert id="queryGroupIdAndItemId" parameterType="hashmap">
+        insert into t_checkgroup_checkitem(checkgroup_id,checkitem_id) values(#{checkGroupId},#{checkItemIds});
+    </insert>
+    <delete id="deleteGroupIdAndItemId" parameterType="int">
+        delete from t_checkgroup_checkitem where checkgroup_id=#{id};
+    </delete>
+    <delete id="deleteGroupIds" parameterType="int">
+        delete from t_checkgroup where id=#{gid}
+    </delete>
+<!--    查询所有检查组信息-->
+    <select id="findAll" resultType="com.run.domain.CheckGroup">
+        select * from t_checkgroup
+    </select>
+    <select id="findCheckGroupById" resultMap="findByIdResultMap">
+        select * from t_checkgroup where id in (select checkgroup_id from t_setmeal_checkgroup where setmeal_id = #{id})
+    </select>
+    
+</mapper>

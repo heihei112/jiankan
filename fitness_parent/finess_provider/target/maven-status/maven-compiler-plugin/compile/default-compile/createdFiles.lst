@@ -1,0 +1,10 @@
+com\run\service\impl\MemberServiceImpl.class
+com\run\dao\CheckGroupDao.class
+com\run\service\impl\CheckGroupServiceImpl.class
+com\run\service\impl\OrderSettingServiceImpl.class
+com\run\dao\MemberDao.class
+com\run\dao\CheckItemDao.class
+com\run\service\impl\SetMealServiceImpl.class
+com\run\dao\SetMealDao.class
+com\run\service\impl\CheckItemServiceImpl.class
+com\run\dao\OrderSettingDao.class

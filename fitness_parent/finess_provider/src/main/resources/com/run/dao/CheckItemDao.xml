@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.run.dao.CheckItemDao">
+    <!--新增-->
+    <insert id="add" parameterType="com.run.domain.CheckItem">
+        insert into t_checkitem(code,name,sex,age,price,type,remark,attention)
+                      values
+        (#{code},#{name},#{sex},#{age},#{price},#{type},#{remark},#{attention})
+    </insert>
+    <!-- 分页查询及模糊查询方法-->
+    <select id="selectByCondition" resultType="com.run.domain.CheckItem" parameterType="String">
+        select  * from t_checkitem
+        <if test="value!=null and value.length > 0">
+            where code like concat('%',#{value},'%') or name like concat('%',#{value},'%')
+        </if>
+    </select>
+    <!-- 查看检查项中是否存在当前id的数据-->
+    <select id="findCountByCheckItemId" resultType="long" parameterType="integer" >
+        select count(*) from t_checkgroup_checkitem where  checkitem_id = #{checkItem_id}
+    </select>
+    <!--通过id删除检查项-->
+    <delete id="deleteId" parameterType="int">
+        delete  from t_checkitem where id = #{id}
+    </delete>
+    <!-- 通过id查询回显数据-->
+    <select id="findById" parameterType="integer" resultType="com.run.domain.CheckItem">
+        select * from  t_checkitem where id = #{id}
+    </select>
+    <!-- 编辑数据 -->
+    <!--  (#{code},#{name},#{sex},#{age},#{price},#{type},#{remark},#{attention})-->
+    <update id="edit" parameterType="com.run.domain.CheckItem">
+        update t_checkitem set
+                name = #{name},
+                sex = #{sex},
+                code = #{code},
+				age = #{age},
+                price = #{price},
+                type = #{type},
+                attention = #{attention} ,
+                remark = #{remark}
+        where id = #{id}
+    </update>
+    <!--查询所有数据项 -->
+    <select id="findAll" resultType="com.run.domain.CheckItem">
+        select * from t_checkitem
+    </select>
+    <select id="findCheckItemById" resultType="com.run.domain.CheckItem">
+     select * from t_checkitem
+        where id
+  	 in (select checkitem_id from t_checkgroup_checkitem where checkgroup_id=#{id})
+</select>
+</mapper>

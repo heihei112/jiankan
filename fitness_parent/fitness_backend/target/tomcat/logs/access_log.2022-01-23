@@ -1,0 +1,10 @@
+0:0:0:0:0:0:0:1 - - [23/Jan/2022:14:47:28 +0800] "GET /pages/main.html HTTP/1.1" 304 - http-bio-82-exec-1 95
+0:0:0:0:0:0:0:1 - - [23/Jan/2022:14:47:28 +0800] "GET /plugins/font-awesome/css/font-awesome.min.css HTTP/1.1" 304 - http-bio-82-exec-3 4
+0:0:0:0:0:0:0:1 - - [23/Jan/2022:14:47:28 +0800] "GET /css/orderset.css HTTP/1.1" 404 983 http-bio-82-exec-2 7
+0:0:0:0:0:0:0:1 - - [23/Jan/2022:14:47:29 +0800] "GET /favicon.ico HTTP/1.1" 404 973 http-bio-82-exec-5 2
+0:0:0:0:0:0:0:1 - - [23/Jan/2022:14:47:31 +0800] "GET /pages/checkgroup.html HTTP/1.1" 304 - http-bio-82-exec-6 4
+0:0:0:0:0:0:0:1 - - [23/Jan/2022:14:47:32 +0800] "POST /checkGroup/findPage.do HTTP/1.1" 200 1354 http-bio-82-exec-7 909
+0:0:0:0:0:0:0:1 - - [23/Jan/2022:14:47:33 +0800] "GET /pages/setmeal.html HTTP/1.1" 304 - http-bio-82-exec-8 4
+0:0:0:0:0:0:0:1 - - [23/Jan/2022:14:47:33 +0800] "POST /setmeal/findPage.do HTTP/1.1" 200 2133 http-bio-82-exec-9 76
+0:0:0:0:0:0:0:1 - - [23/Jan/2022:14:47:41 +0800] "GET /css/orderset.css HTTP/1.1" 404 983 http-bio-82-exec-10 2
+0:0:0:0:0:0:0:1 - - [23/Jan/2022:14:47:42 +0800] "GET /template/ordersetting_template.xlsx HTTP/1.1" 404 1021 http-bio-82-exec-10 1

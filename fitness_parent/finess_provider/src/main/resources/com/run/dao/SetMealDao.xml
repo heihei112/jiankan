@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.run.dao.SetMealDao">
+    <resultMap type="com.run.domain.Setmeal" id="baseResultMap">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="helpCode" property="helpCode"/>
+        <result column="sex" property="sex"/>
+        <result column="age" property="age"/>
+        <result column="price" property="price"/>
+        <result column="remark" property="remark"/>
+        <result column="attention" property="attention"/>
+        <result column="img" property="img"/>
+    </resultMap>
+    <resultMap id="findByIdResultMap" type="com.run.domain.Setmeal" extends="baseResultMap">
+        <collection
+                    property="checkGroups"
+                    javaType="ArrayList"
+                    ofType="com.run.domain.CheckGroup"
+                    column="id"
+                    select="com.run.dao.CheckGroupDao.findCheckGroupById"></collection>
+    </resultMap>
+    <!-- 向检查组中添加数据 -->
+    <select id="selectbyCon" parameterType="String" resultType="com.run.domain.Setmeal">
+        select * from t_setmeal
+        <if test="value!=null and value.length>0">
+            where code like concat('%',#{value},'%') or name like concat('%',#{value},'%')or helpCode like  concat('%',#{value},'%')
+        </if>
+    </select>
+<!--    添加方法-->
+    <insert id="add" parameterType="com.run.domain.Setmeal">
+    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+        select LAST_INSERT_ID()
+    </selectKey>
+        insert into t_setmeal (name,code,helpCode,sex,age,price,remark,attention,img) values
+        (#{name},#{code},#{helpCode},#{sex},#{age},#{price},#{remark},#{attention},#{img});
+    </insert>
+    <insert id="setSetMealAndCheckItem" parameterType="hashmap">
+        insert into t_setmeal_checkgroup(setmeal_id,checkgroup_id) values (#{setMeal_Id},#{checkgroup_Id})
+    </insert>
+    <select id="findAll" resultType="com.run.domain.Setmeal">
+        select * from t_setmeal
+    </select>
+    <select id="findById" resultMap="findByIdResultMap">
+        select * from t_setmeal where id = #{id}
+    </select>
+    <!--删除SetMealAndCheckGroup-->
+    <delete id="deleteSetMealAndCheckGroupId" parameterType="int">
+        delete from t_setmeal_checkgroup where setmeal_id = #{setmeal_id}
+    </delete>
+    <delete id="deleteSetMealId" parameterType="int">
+        delete from t_setmeal where id = #{id}
+    </delete>
+</mapper>

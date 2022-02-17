@@ -1,0 +1,5 @@
+com\run\controller\CheckItemController.class
+com\run\controller\OrderSettingController.class
+com\run\controller\ReportController.class
+com\run\controller\CheckGroupController.class
+com\run\controller\SetMealController.class

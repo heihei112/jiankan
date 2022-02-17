@@ -1,0 +1,5 @@
+com\run\service\MemberService.class
+com\run\service\SetMealService.class
+com\run\service\OrderSettingService.class
+com\run\service\CheckGroupService.class
+com\run\service\CheckItemService.class
